@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DIÁRIO DAS ATIVIDADES — Formulário / Embed</title>
+  <style>
+    :root{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    body{background:#f6f7fb;margin:0;padding:24px;min-height:100vh}
+    .container{max-width:980px;margin:18px auto}
+    .card{background:#fff;border-radius:12px;padding:20px 22px;box-shadow:0 6px 20px rgba(20,20,50,0.08)}
+    h1{margin:0 0 6px;font-size:20px}
+    p.lead{margin:0 0 18px;color:#444}
+
+    /* responsive iframe wrapper */
+    .iframe-wrap{position:relative;width:100%;padding-bottom:140%;height:0;overflow:hidden;border-radius:10px;border:1px solid #e6e9f2}
+    .iframe-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+
+    pre{background:#0b1220;color:#e6eefc;padding:12px;border-radius:8px;overflow:auto}
+    code{font-family:SFMono-Regular,Menlo,Monaco,Roboto Mono,monospace;font-size:13px}
+
+    .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+    button{padding:10px 14px;border-radius:8px;border:0;background:#0b63f6;color:#fff;font-weight:600;cursor:pointer}
+    @media(min-width:900px){.iframe-wrap{padding-bottom:75%}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Embed — Google Form (responsivo)</h1>
+      <p class="lead">Cole o código do Google Forms dentro do <code>&lt;iframe&gt;</code>. Este layout torna o iframe responsivo e com altura proporcional para formulários longos.</p>
+
+      <div class="iframe-wrap" aria-hidden="false">
+        <!-- Substitua o src abaixo pelo seu form (embedded=true) -->
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdnJf-ZcR63KZyQGYblHnOPQJsgOZEq8Np6AfPqlIa0ESi3hw/viewform?embedded=true" title="Formulário — DIÁRIO DAS ATIVIDADES">Carregando…</iframe>
+      </div>
+
+      <h2 style="margin-top:18px;font-size:16px">Snippet para copiar</h2>
+      <pre><code>&lt;div class="iframe-wrap"&gt;
+  &lt;iframe src="https://docs.google.com/forms/d/e/SEU_FORM_ID/viewform?embedded=true" title="Formulário — DIÁRIO DAS ATIVIDADES"&gt;Carregando…&lt;/iframe&gt;
+&lt;/div&gt;</code></pre>
+
+      <p style="margin-top:12px">Observações rápidas:</p>
+      <ul>
+        <li>Use o parâmetro <code>?embedded=true</code> no <code>src</code> para a versão embutida.</li>
+        <li>Se o formulário ficar muito longo, aumente o <code>padding-bottom</code> em <code>.iframe-wrap</code> ou aplique uma altura fixa no próprio <code>iframe</code>.</li>
+        <li>Se quiser que o formulário abra em modal ou em nova aba, eu crio o script.</li>
+      </ul>
+
+      <div class="actions">
+        <button id="download">Gerar HTML pronto (baixar)</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('download').addEventListener('click', () => {
+      const html = `<!doctype html>
+<html lang=\"pt-BR\">
+<head>
+<meta charset=\"utf-8\">
+<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">
+<title>Formulário embutido</title>
+<style>body{margin:0;padding:20px;font-family:Inter,system-ui,Roboto,Arial} .iframe-wrap{position:relative;width:100%;padding-bottom:140%;height:0;overflow:hidden;border-radius:6px} .iframe-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}</style>
+</head>
+<body>
+<div class=\"iframe-wrap\">
+  <iframe src=\"https://docs.google.com/forms/d/e/SEU_FORM_ID/viewform?embedded=true\" title=\"Formulário\">Carregando…</iframe>
+</div>
+</body>
+</html>`;
+      const blob = new Blob([html], {type: 'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'form-embed.html';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
